@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HRLeaveManagement.Application.DTOs
+namespace HRLeaveManagement.Application.DTOs.LeaveRequest
 {
     public class LeaveRequestDto:BaseDto
     {
