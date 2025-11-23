@@ -1,6 +1,6 @@
 ﻿using HR.LeaveManagement.Infrastructure;
 using HR.LeaveManagement.Infrastructure.Repositories;
-using HRLeaveManagement.Application.Persistence.Contracts;
+using HRLeaveManagement.Application.Contracts.Persistence;
 using HRLeaveManagement.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,7 +19,11 @@ namespace HR.LeaveManagement.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-     
+        public Task ChangeApproval(LeaveRequest leaveRequest, bool approved)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<LeaveRequest>> GetLeaveRequestsWithDetails()
         {
             var leaveRequests = await _dbContext.LeaveRequests

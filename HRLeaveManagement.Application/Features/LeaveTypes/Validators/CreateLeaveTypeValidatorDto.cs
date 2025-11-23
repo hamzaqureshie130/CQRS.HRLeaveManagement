@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using HRLeaveManagement.Application.DTOs;
+using HRLeaveManagement.Application.DTOs.LeaveType;
 using System;
 using System.Collections.Generic;
 using System.Linq;

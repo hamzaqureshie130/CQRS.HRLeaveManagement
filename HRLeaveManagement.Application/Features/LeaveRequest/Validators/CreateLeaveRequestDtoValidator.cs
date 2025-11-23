@@ -1,33 +1,25 @@
 ﻿using FluentValidation;
 using HRLeaveManagement.Application.DTOs.LeaveRequest;
-using HRLeaveManagement.Application.Persistence.Contracts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace HRLeaveManagement.Application.Features.LeaveRequest.Validators
 {
-    public class CreateLeaveRequestDtoValidator : AbstractValidator<LeaveRequestDto>
+    public class CreateLeaveRequestDtoValidator : AbstractValidator<CreateLeaveRequestDto>
     {
-        private readonly ILeaveRequestRepository _leaveRequestRepository;
-
-        public CreateLeaveRequestDtoValidator(ILeaveRequestRepository leaveRequestRepository)
+        public CreateLeaveRequestDtoValidator()
         {
-            _leaveRequestRepository = leaveRequestRepository;
+            RuleFor(p => p.StartDate)
+                .LessThan(p => p.EndDate).WithMessage("{PropertyName} must be before {ComparisonValue}.");
 
-            RuleFor(x => x.StartDate)
-                .LessThan(x => x.EndDate).WithMessage("{PropertyName} must be before End Date.")
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull();
-            RuleFor(x => x.EndDate)
-                .GreaterThan(x => x.StartDate).WithMessage("{PropertyName} must be after Start Date.")
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull();
-            RuleFor(x => x.LeaveTypeId)
-                .GreaterThan(0).WithMessage("{PropertyName} must be greater than {ComparisonValue}.")
-                .MustAsync(async (id, token) =>
-                {
-                    var leaveTypeExist = await _leaveRequestRepository.Exist(id);
-                    return !leaveTypeExist;
-                })
-                .WithMessage("{PropertyName} does not exist.");
+            RuleFor(p => p.EndDate)
+                .GreaterThan(p => p.StartDate).WithMessage("{PropertyName} must be after {ComparisonValue}.");
+
+            RuleFor(p => p.LeaveTypeId)
+                .GreaterThan(0).WithMessage("{PropertyName} must be greater than {ComparisonValue}.");
         }
     }
 }

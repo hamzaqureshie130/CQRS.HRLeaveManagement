@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using HRLeaveManagement.Application.DTOs.LeaveAllocation;
+using HRLeaveManagement.Application.Exceptions;
 using HRLeaveManagement.Application.Features.LeaveAllocation.Requests.Commands;
-using HRLeaveManagement.Application.Persistence.Contracts;
+using HRLeaveManagement.Application.Features.LeaveAllocation.Validators;
+using HRLeaveManagement.Application.Contracts.Persistence;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -22,11 +25,19 @@ namespace HRLeaveManagement.Application.Features.LeaveAllocation.Handlers.Comman
         }
         public async Task<Unit> Handle(UpdateLeaveAllocationCommandRequest request, CancellationToken cancellationToken)
         {
+            var validator = new UpdateLeaveAllocationDtoValidator();
+            var validationResult = await validator.ValidateAsync(request.LeaveAllocationDto);
+
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult);
+            }
+
             var leaveAllocation = await _leaveAllocationRepository.Get(request.LeaveAllocationDto.Id);
            
             if (leaveAllocation == null)
             {
-                throw new Exception($"Leave Allocation with Id {request.LeaveAllocationDto.Id} not found.");
+                throw new NotFoundException(nameof(LeaveAllocation), request.LeaveAllocationDto.Id);
             }
 
             var mappedLeaveAllocation = _mapper.Map(request.LeaveAllocationDto, leaveAllocation);
