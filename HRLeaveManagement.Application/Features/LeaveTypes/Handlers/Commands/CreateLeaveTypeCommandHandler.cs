@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
+using HRLeaveManagement.Application.Exceptions;
 using HRLeaveManagement.Application.Features.LeaveTypes.Requests.Commands;
+using HRLeaveManagement.Application.Features.LeaveTypes.Validators;
 using HRLeaveManagement.Application.Persistence.Contracts;
 using HRLeaveManagement.Domain;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace HRLeaveManagement.Application.Features.LeaveTypes.Handlers.Commands
 {
@@ -15,13 +13,19 @@ namespace HRLeaveManagement.Application.Features.LeaveTypes.Handlers.Commands
     {
         private readonly ILeaveTypeRepository _leaveTypeRepository;
         private readonly IMapper _mapper;
-        public CreateLeaveTypeCommandHandler(ILeaveTypeRepository leaveTypeRepository,IMapper mapper)
+        public CreateLeaveTypeCommandHandler(ILeaveTypeRepository leaveTypeRepository, IMapper mapper)
         {
             _leaveTypeRepository = leaveTypeRepository;
             _mapper = mapper;
         }
         public async Task<int> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
         {
+            var validator = new CreateLeaveTypeValidatorDto();
+            var validationResult = await validator.ValidateAsync(request.LeaveTypeDto);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult);
+            }
             var leaveType = _mapper.Map<LeaveType>(request.LeaveTypeDto);
             var response = await _leaveTypeRepository.Add(leaveType);
             return response.Id;

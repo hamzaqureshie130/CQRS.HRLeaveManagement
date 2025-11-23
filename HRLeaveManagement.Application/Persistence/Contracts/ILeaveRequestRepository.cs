@@ -1,4 +1,5 @@
-﻿using HRLeaveManagement.Domain;
+﻿using HRLeaveManagement.Application.DTOs.LeaveRequest;
+using HRLeaveManagement.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace HRLeaveManagement.Application.Persistence.Contracts
     {
         Task<LeaveRequest> GetLeaveRequestWithDetails(int id);
         Task<List<LeaveRequest>> GetLeaveRequestsWithDetails();
+        
     }
 }

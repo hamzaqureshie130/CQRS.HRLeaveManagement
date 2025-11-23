@@ -19,6 +19,7 @@ namespace HR.LeaveManagement.Persistence.Repositories
             _dbContext = dbContext;
         }
 
+     
         public async Task<List<LeaveRequest>> GetLeaveRequestsWithDetails()
         {
             var leaveRequests = await _dbContext.LeaveRequests

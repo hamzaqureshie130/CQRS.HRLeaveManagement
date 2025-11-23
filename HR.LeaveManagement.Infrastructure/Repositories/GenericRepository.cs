@@ -49,6 +49,16 @@ namespace HR.LeaveManagement.Infrastructure.Repositories
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
+        /// <summary>
+        /// Determines whether a leave request with the specified id exists.
+        /// </summary>
+        /// <param name="id">The leave request id.</param>
+        /// <returns>True if exists; otherwise false.</returns>
+        public async Task<bool> Exist(int id) =>
+            await _dbContext.LeaveRequests.AnyAsync(q => q.Id == id);
+
+
+
 
     }
 }

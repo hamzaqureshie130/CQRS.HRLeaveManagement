@@ -14,6 +14,11 @@ namespace HRLeaveManagement.Application.Features.LeaveAllocation.Handlers.Comman
     {
         private readonly IMapper _mapper;
         private readonly ILeaveAllocationReopository _leaveAllocationRepository;
+        public CreateLeaveAllowcationCommandHandler(IMapper mapper, ILeaveAllocationReopository leaveAllocationReopository)
+        {
+            _leaveAllocationRepository = leaveAllocationReopository;
+            _mapper = mapper;
+        }
         public async Task<int> Handle(CreateLeaveAllocationCommand request, CancellationToken cancellationToken)
         {
             var leaveAllocation = _mapper.Map<Domain.LeaveAllocation>(request.LeaveAllocationDto);
