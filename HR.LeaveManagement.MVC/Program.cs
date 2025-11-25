@@ -1,3 +1,5 @@
+using HR.LeaveManagement.MVC.Services;
+
 namespace HR.LeaveManagement.MVC
 {
     public class Program
@@ -8,6 +10,10 @@ namespace HR.LeaveManagement.MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHttpClient<IClient, Client>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44335/");
+            });
 
             var app = builder.Build();
 
