@@ -14,17 +14,17 @@ namespace HRLeaveManagement.Application.Features.LeaveTypes.Handlers.Queries
 {
     public class GetLeaveTypeListRequestHandler : IRequestHandler<GetLeaveTypeRequest, List<LeaveTypeDto>>
     {
-        private readonly ILeaveRequestRepository _leaveRequestRepository;
+        private readonly ILeaveTypeRepository _leaveTypeRepository;
         private readonly IMapper _mapper;
-        public GetLeaveTypeListRequestHandler(ILeaveRequestRepository leaveRequestRepository, IMapper mapper)
+        public GetLeaveTypeListRequestHandler(ILeaveTypeRepository leaveTypeRepository, IMapper mapper)
         {
-            _leaveRequestRepository = leaveRequestRepository;
+            _leaveTypeRepository = leaveTypeRepository;
             _mapper = mapper;
         }
 
         public async Task<List<LeaveTypeDto>> Handle(GetLeaveTypeRequest request, CancellationToken cancellationToken)
         {
-            var leaveTypes = await _leaveRequestRepository.GetLeaveRequestsWithDetails();
+            var leaveTypes = await _leaveTypeRepository.GetAll();
             return _mapper.Map<List<LeaveTypeDto>>(leaveTypes);
         }
     }

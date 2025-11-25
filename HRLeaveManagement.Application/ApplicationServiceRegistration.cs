@@ -15,7 +15,7 @@ namespace HRLeaveManagement.Application
         {
             // Add application services here (e.g., AutoMapper, MediatR, Validators, etc.)
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             return services;
         }
 

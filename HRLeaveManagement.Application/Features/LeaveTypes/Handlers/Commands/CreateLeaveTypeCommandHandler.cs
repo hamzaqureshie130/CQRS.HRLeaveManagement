@@ -20,15 +20,26 @@ namespace HRLeaveManagement.Application.Features.LeaveTypes.Handlers.Commands
         }
         public async Task<int> Handle(CreateLeaveTypeCommand request, CancellationToken cancellationToken)
         {
-            var validator = new CreateLeaveTypeValidatorDto();
-            var validationResult = await validator.ValidateAsync(request.LeaveTypeDto);
-            if (!validationResult.IsValid)
+            try
             {
-                throw new ValidationException(validationResult);
+
+                var validator = new CreateLeaveTypeValidatorDto();
+                var validationResult = await validator.ValidateAsync(request.LeaveTypeDto);
+                if (!validationResult.IsValid)
+                {
+                    throw new ValidationException(validationResult);
+                }
+                var leaveType = _mapper.Map<LeaveType>(request.LeaveTypeDto);
+                var response = await _leaveTypeRepository.Add(leaveType);
+                return response.Id;
+
             }
-            var leaveType = _mapper.Map<LeaveType>(request.LeaveTypeDto);
-            var response = await _leaveTypeRepository.Add(leaveType);
-            return response.Id;
+
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }

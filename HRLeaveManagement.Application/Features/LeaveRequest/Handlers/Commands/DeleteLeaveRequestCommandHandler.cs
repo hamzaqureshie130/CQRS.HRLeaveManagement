@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace HRLeaveManagement.Application.Features.LeaveRequest.Handlers.Commands
 {
-    public class DeleteLeaveRequestCommandHandler : IRequestHandler<DeleteLeaveRequestCommand>
+    public class DeleteLeaveRequestCommandHandler
+         : IRequestHandler<DeleteLeaveRequestCommand, Unit>
     {
         private readonly ILeaveRequestRepository _leaveRequestRepository;
         private readonly IMapper _mapper;

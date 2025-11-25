@@ -19,9 +19,18 @@ namespace HR.LeaveManagement.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public Task ChangeApproval(LeaveRequest leaveRequest, bool approved)
+        public async Task<bool> ChangeApproval(LeaveRequest leaveRequest, bool approved)
         {
-            throw new NotImplementedException();
+            var leaveReq = await _dbContext.LeaveRequests.FirstOrDefaultAsync(q => q.Id == leaveRequest.Id);
+           
+            if (leaveReq != null)
+            {
+                leaveReq.Approved = approved;
+                leaveReq.DateActioned = DateTime.Now;
+               
+            }
+            return true;
+
         }
 
         public async Task<List<LeaveRequest>> GetLeaveRequestsWithDetails()

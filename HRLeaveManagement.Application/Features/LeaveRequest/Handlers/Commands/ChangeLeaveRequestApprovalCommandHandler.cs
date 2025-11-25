@@ -42,7 +42,10 @@ namespace HRLeaveManagement.Application.Features.LeaveRequest.Handlers.Commands
             }
 
             leaveRequest.Approved = request.ChangeLeaveRequestApprovalDto.Approved;
-            await _leaveRequestRepository.ChangeApproval(leaveRequest, request.ChangeLeaveRequestApprovalDto.Approved);
+
+            await _leaveRequestRepository.Update(leaveRequest);
+
+            //await _leaveRequestRepository.ChangeApproval(leaveRequest, request.ChangeLeaveRequestApprovalDto.Approved);
 
             return Unit.Value;
         }
