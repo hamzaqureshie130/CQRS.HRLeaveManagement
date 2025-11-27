@@ -1,4 +1,7 @@
+using HR.LeaveManagement.MVC.Contracts;
 using HR.LeaveManagement.MVC.Services;
+using HR.LeaveManagement.MVC.Services.Base;
+using System.Reflection;
 
 namespace HR.LeaveManagement.MVC
 {
@@ -14,6 +17,10 @@ namespace HR.LeaveManagement.MVC
             {
                 client.BaseAddress = new Uri("https://localhost:44335/");
             });
+
+            builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            builder.Services.AddSingleton<ILocalStorageService, LocalStorageService>();
+            builder.Services.AddScoped<ILeaveTypeService, LeaveTypeService>();
 
             var app = builder.Build();
 
